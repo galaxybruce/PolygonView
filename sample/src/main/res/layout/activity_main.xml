@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
+    tools:context="com.totoro.xkf.sample.MainActivity">
+
+    <com.totoro.xkf.polygonview.PolygonView
+        android:id="@+id/pv_polygon_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:areaColor="@android:color/holo_blue_light"
+        app:edgeColor="#80ffffff"
+        app:edgeCount="8"
+        app:loopCount="5"
+        app:circleRadiusRate="0.6"
+        app:textColor="@android:color/white" />
+</FrameLayout>
