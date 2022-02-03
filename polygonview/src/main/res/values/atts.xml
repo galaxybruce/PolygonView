@@ -5,6 +5,7 @@
         <attr name="edgeColor" format="color" />
         <attr name="areaColor" format="color" />
         <attr name="loopCount" format="integer" />
+        <attr name="drawLoopCount" format="integer" />
         <attr name="edgeCount" format="integer" />
         <attr name="circleRadiusRate" format="float" />
     </declare-styleable>

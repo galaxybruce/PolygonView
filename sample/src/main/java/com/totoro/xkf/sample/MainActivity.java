@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         pointValue.add(0.7f);
         pointValue.add(1.0f);
         pointValue.add(0.9f);
+//        polygonView.setPointValue(pointValue);
 
-        polygonView.setPointValue(pointValue);
         //每个方向的的文字，可以不设置
         List<String> pointName = new ArrayList<>();
         pointName.add("Activity");
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         pointName.add("View");
         pointName.add("View");
         pointName.add("View");
-        polygonView.setPointName(pointName);
+//        polygonView.setPointName(pointName);
 
         List<Bitmap> pointBitmap = new ArrayList<>();
         pointBitmap.add(BitmapFactory.decodeResource(getResources(), R.drawable.logo));
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         pointBitmap.add(BitmapFactory.decodeResource(getResources(), R.drawable.logo));
         pointBitmap.add(BitmapFactory.decodeResource(getResources(), R.drawable.logo));
         pointBitmap.add(BitmapFactory.decodeResource(getResources(), R.drawable.logo));
-//        polygonView.setPointBitmap(pointBitmap);
+        polygonView.setPointBitmap(pointBitmap);
         int [] colors = {
                 Color.parseColor("#9966ff"),
                 Color.parseColor("#99ccff"),

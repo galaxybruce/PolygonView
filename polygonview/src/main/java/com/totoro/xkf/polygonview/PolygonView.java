@@ -35,6 +35,7 @@ public class PolygonView extends View {
     private float circleRadiusRate;
     private int edgeCount;
     private int loopCount;
+    private int drawLoopCount;
     private float angle;
     private int[] areaColors;
     private List<Float> pointValue;
@@ -87,6 +88,7 @@ public class PolygonView extends View {
         initPaint();
         setTextColor(typedArray.getColor(R.styleable.Polygon_textColor, Color.BLACK));
         setLoopCount(typedArray.getInteger(R.styleable.Polygon_loopCount, 0));
+        setDrawLoopCount(typedArray.getInteger(R.styleable.Polygon_drawLoopCount, 0));
         setEdgeCount(typedArray.getInteger(R.styleable.Polygon_edgeCount, 0));
         setAreaColor(typedArray.getColor(R.styleable.Polygon_areaColor, Color.BLUE));
         setEdgeColor(typedArray.getColor(R.styleable.Polygon_edgeColor, Color.GRAY));
@@ -98,7 +100,7 @@ public class PolygonView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         width = w;
         height = h;
-        maxRadius = (float) ((width / 2) * 0.8);
+        maxRadius = (float) ((width / 2) * 0.7);
         postInvalidate();
     }
 
@@ -156,8 +158,10 @@ public class PolygonView extends View {
 //        }
 
         for (int i = 0; i < loopCount; i++) {
-            float rate = computeRate(i + 1, loopCount);
-            canvas.drawCircle(0, 0, maxRadius * rate, edgePaint);
+            if(i + drawLoopCount >= loopCount) {
+                float rate = computeRate(i + 1, loopCount);
+                canvas.drawCircle(0, 0, maxRadius * rate, edgePaint);
+            }
         }
     }
 
@@ -201,10 +205,16 @@ public class PolygonView extends View {
        绘制个方向顶端的圆点
     */
     private void drawAreaDot(Canvas canvas) {
+        if(areaColors == null || areaColors.length < edgeCount) {
+            return;
+        }
         final int dotRadius = 10;
         final Paint paint = new Paint();
         for (int i = 0; i < edgeCount; i++) {
             float rate = pointValue.get(i);
+            if(rate == 0) {
+                continue;
+            }
             float currentX = maxPointXList.get(i) * rate;
             float currentY = maxPointYList.get(i) * rate;
             paint.reset();
@@ -260,19 +270,19 @@ public class PolygonView extends View {
         if (pointBitmap == null) {
             return;
         }
-        //绘制文字的难点在于无法最好的适配屏幕的位置，会发生难以控制的偏倚
         float destWidth = 100f;
         float destHeight = 100f;
         for (int i = 0; i < pointBitmap.size(); i++) {
             Bitmap bitmap = pointBitmap.get(i);
-            float currentX = maxPointXList.get(i) * 1.2f;
-            float currentY = maxPointYList.get(i) * 1.2f;
+            float currentX = maxPointXList.get(i) * 1.3f;
+            float currentY = maxPointYList.get(i) * 1.f;
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             Rect src = new Rect(0, 0, width, height);
             RectF dest = new RectF(currentX - destWidth / 2f, currentY - destHeight / 2f,
                     currentX - destWidth / 2f + destWidth, currentY - destHeight / 2f + destHeight);
             canvas.drawBitmap(bitmap, src, dest, textPaint);
+//            canvas.drawBitmap(bitmap, currentX - width / 2f, currentY - height / 2f, textPaint);
         }
     }
 
@@ -340,15 +350,24 @@ public class PolygonView extends View {
         this.loopCount = loopCount;
     }
 
+    public void setDrawLoopCount(int drawLoopCount) {
+        this.drawLoopCount = drawLoopCount;
+    }
+
     public void setEdgeCount(int edgeCount) {
         this.edgeCount = edgeCount;
         angle = 360f / edgeCount;
+
+        this.pointValue = new ArrayList<>();
+        for (int i = 0; i < edgeCount; i++) {
+            pointValue.add(0.0f);
+        }
     }
 
     public void setPointValue(List<Float> pointValue) {
         for (int i = 0; i < pointValue.size(); i++) {
             if(pointValue.get(i) <= circleRadiusRate) {
-                pointValue.set(i, circleRadiusRate + 1);
+                pointValue.set(i, circleRadiusRate);
             }
         }
         this.pointValue = pointValue;

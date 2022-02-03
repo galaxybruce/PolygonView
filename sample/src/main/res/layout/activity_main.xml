@@ -14,6 +14,7 @@
         app:areaColor="@android:color/holo_blue_light"
         app:edgeColor="#80ffffff"
         app:edgeCount="8"
+        app:drawLoopCount="2"
         app:loopCount="5"
         app:circleRadiusRate="0.6"
         app:textColor="@android:color/white" />
