@@ -92,6 +92,7 @@ public class PolygonView extends View {
         setEdgeCount(typedArray.getInteger(R.styleable.Polygon_edgeCount, 0));
         setAreaColor(typedArray.getColor(R.styleable.Polygon_areaColor, Color.BLUE));
         setEdgeColor(typedArray.getColor(R.styleable.Polygon_edgeColor, Color.GRAY));
+        setEdgeWidth(typedArray.getDimension(R.styleable.Polygon_edgeWidth, 2));
         setCircleRadius(typedArray.getFloat(R.styleable.Polygon_circleRadiusRate, 0.0f));
         typedArray.recycle();
     }
@@ -344,6 +345,10 @@ public class PolygonView extends View {
 
     public void setEdgeColor(int color) {
         edgePaint.setColor(color);
+    }
+
+    public void setEdgeWidth(float width) {
+        edgePaint.setStrokeWidth(width);
     }
 
     public void setLoopCount(int loopCount) {
