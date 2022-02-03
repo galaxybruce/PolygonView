@@ -275,15 +275,20 @@ public class PolygonView extends View {
         float destHeight = 100f;
         for (int i = 0; i < pointBitmap.size(); i++) {
             Bitmap bitmap = pointBitmap.get(i);
+            int bWidth = bitmap.getWidth();
+            int bHeight = bitmap.getHeight();
             float currentX = maxPointXList.get(i) * 1.3f;
-            float currentY = maxPointYList.get(i) * 1.f;
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-            Rect src = new Rect(0, 0, width, height);
+            float currentY = maxPointYList.get(i) * 1.3f;
+            float left = currentX - bWidth / 2f;
+            float top = currentY - bHeight / 2f;
+            left = Math.min(Math.max(left, width / -2f), width / 2f - bWidth);
+            top = Math.min(Math.max(top, height / -2f), height / 2f - bHeight);
+
+            Rect src = new Rect(0, 0, bWidth, bHeight);
             RectF dest = new RectF(currentX - destWidth / 2f, currentY - destHeight / 2f,
                     currentX - destWidth / 2f + destWidth, currentY - destHeight / 2f + destHeight);
             canvas.drawBitmap(bitmap, src, dest, textPaint);
-//            canvas.drawBitmap(bitmap, currentX - width / 2f, currentY - height / 2f, textPaint);
+//            canvas.drawBitmap(bitmap, left, top, textPaint);
         }
     }
 
@@ -322,6 +327,11 @@ public class PolygonView extends View {
             return false;
         }
         return true;
+    }
+
+    public void clearData() {
+        setDefValue();
+        draw();
     }
 
     public void setTextColor(int color) {
@@ -363,10 +373,7 @@ public class PolygonView extends View {
         this.edgeCount = edgeCount;
         angle = 360f / edgeCount;
 
-        this.pointValue = new ArrayList<>();
-        for (int i = 0; i < edgeCount; i++) {
-            pointValue.add(0.0f);
-        }
+        setDefValue();
     }
 
     public void setPointValue(List<Float> pointValue) {
@@ -376,6 +383,13 @@ public class PolygonView extends View {
             }
         }
         this.pointValue = pointValue;
+    }
+
+    private void setDefValue() {
+        this.pointValue = new ArrayList<>();
+        for (int i = 0; i < edgeCount; i++) {
+            pointValue.add(0.0f);
+        }
     }
 
     public void setPointName(List<String> pointName) {
